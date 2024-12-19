@@ -10,6 +10,16 @@ namespace Snow
         List<Particle> particles = new List<Particle>();
         Texture2D texture;
         Random random = new Random();
+        float windPower = 50;
+
+        private void RemoveParticles(){
+            for(int i = 0; i < particles.Count; i++){
+                if(particles[i].Position.Y > 400){
+                    particles.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
 
         public ParticleSystem(Texture2D texture){
             this.texture = texture;
@@ -32,9 +42,11 @@ namespace Snow
 
         public void Update(){
             foreach(Particle particle in particles){
+                particle.Velocity = new Vector2(windPower*0.016f, 0);
                 particle.Update();
             }
             SpawnParticle();
+            RemoveParticles();
         }
 
         public void Draw(SpriteBatch spriteBatch){
